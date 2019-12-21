@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+</head>
+<body style="background-color: #434343">
+
+    <div id="container">
+        <div class="main-header">
+            <h1>Image Editor</h1>
+        </div>
+        
+        <div class="header">
+            <div id="left" style="float: left">
+              <input type="file" multiple="false" accept="image/*" id="finput" onchange="upload()" style="display: none" >
+              <label for="finput"><img src="images/select.png" alt="select" id="selectImage"></label>
+               <img src="images/crop.png" alt="crop">
+               <img src="images/border.jpg" alt="boder">
+            </div>
+            <div id="right" style="float: right">
+                <img src="images/undo.jpg" alt="undo">
+                <img src="images/redo.jpg" alt="redo">
+                <img src="images/save.png" alt="save">
+                <img src="images/cancel.jpg" alt="cancel">
+            </div>
+        </div>
+        
+        <div class="main">
+            <div id="image-box">
+               <canvas id="can"></canvas>
+            </div>
+        </div>
+        
+        <div class="filter">
+            <div class="row">
+                <div class="col-sm-3">
+                    <button class="btn btn-light" onclick="black_white()">Black N White</button>
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-light">filter 2</button>
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-light" id="invert" onclick="invert()">Invert</button>
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-light">filter 4</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <button class="btn btn-light">filter 5</button>
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-light">filter 6</button>
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-light">filter 7</button>
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-light">filter 8</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer"></div>
+    </div>
+    
+<script src="script.js"></script>
+<script src="bootstrap/bootstrap.min.js"></script>
+<script src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js" ></script>
+</body>
+</html>

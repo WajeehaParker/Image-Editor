@@ -1,0 +1,59 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+#container{
+    margin: auto;
+    width: 450px;
+    height: 800px;
+    background-color: gainsboro;
+}
+
+.main-header{
+    height: 60px;
+    background-color: darkturquoise;
+    text-align: center;
+}
+
+.header{
+    height: 40px;
+    background-color: white;
+    padding: 5px 10px;
+}
+
+.header img{
+    width: 30px;
+    height: 30px;
+    margin: 0 3px;
+}
+
+.main{
+    padding: 40px 0;
+}
+
+.main #image-box, .main #can{
+    margin: auto;
+    border: 1px solid dimgrey;
+    height: 350px;
+    width: 350px;
+}
+
+.filter{
+    background-color: cadetblue;
+    padding: 30px;
+}
+
+.filter button{
+    border: 1px solid white;
+    border-radius: 50px;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+}
+
+.footer{
+    height: 20px;
+    background-color: darkturquoise;
+}
+
