@@ -2,6 +2,8 @@ var canvas;
 var context;
 var imageData;
 var data;
+var undo=[];
+var redo=[];
 
 //image input
 function upload() {
@@ -19,11 +21,58 @@ function fetchData(){
     canvas = document.getElementById('can');
     context = canvas.getContext('2d');
     imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-    data=imageData.data;    
+    data=imageData.data;
 }
+
+function delImage(){
+    fetchData();
+    for (var i = data.length; --i >= 0; )
+        data[i] = 0;
+    context.putImageData(imageData, 0, 0);
+    undo.push(imageData);
+}
+
+function crop(){
+//    fetchData();
+//    context.strokeStyle="blue";
+//    context.beginPath();
+//    context.moveTo(0,0);
+//    context.lineTo(canvas.width, 0);
+//    context.lineTo(canvas.width, canvas.height);
+//    context.lineTo(0, canvas.height);
+//    context.lineTo(0, 0);
+//    context.stroke();
+    
+}
+
+function iundo(){
+    if(undo.length==0)
+        delImage();
+    else{
+        idata=undo.pop();
+        redo.push(idata);
+        context.putImageData(idata, 0, 0);
+    }
+}
+
+function iredo(){
+    idata=redo.pop();
+    undo.push(idata);
+    context.putImageData(idata, 0, 0);
+}
+
+function saveImg(){
+    fetchData();
+    var download = document.getElementById("download");
+    var image = document.getElementById("can").toDataURL("image/png").replace("image/png", "image/octet-stream");
+    download.setAttribute("href", image);
+}
+
+//-----------filters----------------
 
 function invert() {
     fetchData();
+    undo.push(imageData);
     for (var i = 0; i < data.length; i+= 4) {
         data[i] = data[i] ^ 255;
         data[i+1] = data[i+1] ^ 255;
@@ -34,6 +83,7 @@ function invert() {
 
 function blurfunc() {
     fetchData();
+    undo.push(imageData);
     for (var br=0; br<10; br+=1) {
         for (var i=0, n=data.length; i<n; i+=4) {
             var imgW = 4*canvas.width;
@@ -83,9 +133,31 @@ function grayScale(){
     return data;
 }
 
-function duoTone(){
-    fetchData();
-    data=grayScale(data);
+//function showColorBox(){
+//     document.getElementById('colorBox').style.display='block'; 
+//    document.getElementById('colorBox').style.marginTop="-30px";
+//    
+//    fetchData();
+//    temp=data;
+//}
+
+//function duoTone(){
+//    var rgb1=document.getElementById("color1").value;
+//    var rgb2=document.getElementById("color2").value;
+//    
+//    var bigint = parseInt(rgb1, 16);
+//    var r1 = (bigint >> 16) & 255;
+//    var g1 = (bigint >> 8) & 255;
+//    var b1 = bigint & 255;
+//    
+//    bigint = parseInt(rgb2, 16);
+//    var r2 = (bigint >> 16) & 255;
+//    var g2 = (bigint >> 8) & 255;
+//    var b2 = bigint & 255;
+//    
+//    data=temp;
+//    fetchData();
+//    data=grayScale(data);
 //    var rgb1 = hexToRgb("#55a9e2");
 //    var rgb2 = hexToRgb("#de2d2b");
 //    var gradient = [];
@@ -96,11 +168,30 @@ function duoTone(){
 //        gradient[i+3] = 255;
 //    }
     
+//    var gradient = [];
+//    for (var i = 0; i < (256*4); i += 4) {
+//        gradient[i] = ((256-(i/4))*85 + (i/4)*254)/256;
+//        gradient[i+1] = ((256-(i/4))*169 + (i/4)*254)/256;
+//        gradient[i+2] = ((256-(i/4))*226 + (i/4)*254)/256;
+//        gradient[i+3] = 255;
+//    }
+//    for (var i = 0; i < data.length; i += 4) {
+//        data[i] = gradient[data[i]*4];
+//        data[i+1] = gradient[data[i+1]*4 + 1];
+//        data[i+2] = gradient[data[i+2]*4 + 2];
+//    }
+//    context.putImageData(imageData, 0, 0);
+//}
+
+function duoTone(){
+    fetchData();
+    undo.push(imageData);
+    data=grayScale(data);
     var gradient = [];
     for (var i = 0; i < (256*4); i += 4) {
-        gradient[i] = ((256-(i/4))*222 + (i/4)*85)/256;
-        gradient[i+1] = ((256-(i/4))*45 + (i/4)*169)/256;
-        gradient[i+2] = ((256-(i/4))*43 + (i/4)*226)/256;
+        gradient[i] = ((256-(i/4))*85 + (i/4)*254)/256;
+        gradient[i+1] = ((256-(i/4))*169 + (i/4)*254)/256;
+        gradient[i+2] = ((256-(i/4))*226 + (i/4)*254)/256;
         gradient[i+3] = 255;
     }
     for (var i = 0; i < data.length; i += 4) {
@@ -127,10 +218,13 @@ function duoTone(){
 //    }
 
 
+//undo
+//ctx.globalCompositeOperation ="xor"
+//ctx.drawImage(img2, 100, 100);
 
 
 
-
+//-----------borders----------------
 
 
 

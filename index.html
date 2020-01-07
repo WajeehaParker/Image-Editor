@@ -15,16 +15,16 @@
         
         <div class="header">
             <div id="left" style="float: left">
-              <input type="file" multiple="false" accept="image/*" id="finput" onchange="upload()" style="display: none" >
-              <label for="finput"><img src="images/select.png" alt="select" id="selectImage"></label>
-               <img src="images/crop.png" alt="crop">
-               <img src="images/border.jpg" alt="boder">
+                <input type="file" multiple="false" accept="image/*" id="finput" onchange="upload()" style="display: none" >
+                <label for="finput"><img src="images/select.png" alt="select" id="selectImage"></label>
+                <button onclick="crop(event)"><img src="images/crop.png" alt="crop"></button>
+                <img src="images/border.jpg" alt="border">
             </div>
             <div id="right" style="float: right">
-                <img src="images/undo.jpg" alt="undo">
-                <img src="images/redo.jpg" alt="redo">
-                <img src="images/save.png" alt="save">
-                <img src="images/cancel.jpg" alt="cancel">
+                <button onclick="iundo()"><img src="images/undo.jpg" alt="undo"></button>
+                <button onclick="iredo()"><img src="images/redo.jpg" alt="redo"></button>
+                <a id="download" download="image.png"><button onclick="saveImg()"><img src="images/save.png" alt="save"></button></a>
+                <button onclick="delImage()"><img src="images/cancel.jpg" alt="cancel" onclick="close()"></button>
             </div>
         </div>
         
@@ -33,6 +33,14 @@
                <canvas id="can"></canvas>
             </div>
         </div>
+        
+        
+<!--
+        <div id="colorBox">
+            <input type="color" class="colors" id="color1" onchange="duoTone()">
+            <input type="color" class="colors" id="color2" onchange="duoTone()">
+        </div>
+-->
         
         <div class="filter">
             <div class="row">
@@ -70,6 +78,7 @@
     
 <script src="script.js"></script>
 <script src="bootstrap/bootstrap.min.js"></script>
+<script src="bootstrap/jquery.js"></script>
 <script src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js" ></script>
 </body>
 </html>

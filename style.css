@@ -28,6 +28,11 @@
     margin: 0 3px;
 }
 
+.header button{
+    border: none;
+    background-color: white;
+}
+
 .main{
     padding: 40px 0;
 }
@@ -37,6 +42,17 @@
     border: 1px solid dimgrey;
     height: 350px;
     width: 350px;
+}
+
+#colorBox{
+    margin-left: 35px;
+    display: none;
+}
+
+.colors{
+    margin: 0 10px;
+    width: 168px;
+    height: 30px;
 }
 
 .filter{
