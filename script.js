@@ -183,15 +183,36 @@ function grayScale(){
 //    context.putImageData(imageData, 0, 0);
 //}
 
+function showColorBox(){
+    var colorBox=document.getElementById('colorBox');
+    if(colorBox.style.display==='none'){
+        colorBox.style.display='block';
+        fetchData();
+        undo.push(imageData);
+    } else{
+        colorBox.style.display='none';
+    }
+}
+
 function duoTone(){
-    fetchData();
+    imageData = undo.pop();
     undo.push(imageData);
+    data=imageData.data;
     data=grayScale(data);
+    var color=document.getElementById('color1');
+    var r1=parseInt("0x"+color.value.slice(1,3));
+    var g1=parseInt("0x"+color.value.slice(3,5));
+    var b1=parseInt("0x"+color.value.slice(5,7));
+    color=document.getElementById('color2');
+    var r2=parseInt("0x"+color.value.slice(1,3));
+    var g2=parseInt("0x"+color.value.slice(3,5));
+    var b2=parseInt("0x"+color.value.slice(5,7));
+    
     var gradient = [];
     for (var i = 0; i < (256*4); i += 4) {
-        gradient[i] = ((256-(i/4))*85 + (i/4)*254)/256;
-        gradient[i+1] = ((256-(i/4))*169 + (i/4)*254)/256;
-        gradient[i+2] = ((256-(i/4))*226 + (i/4)*254)/256;
+        gradient[i] = ((256-(i/4))*r1 + (i/4)*r2)/256;
+        gradient[i+1] = ((256-(i/4))*g1 + (i/4)*g2)/256;
+        gradient[i+2] = ((256-(i/4))*b1 + (i/4)*b2)/256;
         gradient[i+3] = 255;
     }
     for (var i = 0; i < data.length; i += 4) {
@@ -254,7 +275,28 @@ function applyFrame(e){
 //    }
 //    context.putImageData(imageData, 0, 0);
     
-    
+    fetchData();
+    data2=data;
+    undo.push(imageData);
+    var fileinput = document.getElementById(e);
+    image = new SimpleImage(fileinput);
+    image.width=canvas.width;
+    image.height=canvas.height;
+//    var can = document.getElementById("can2");
+    image.drawTo(canvas);
+//    var ctx = can.getContext('2d');
+//    var imageData2 = ctx.getImageData(0, 0, can.width, can.height);
+    fetchData();
+//    var data2=imageData2.data;
+    for (var i = 0; i < data.length; i+= 4) {
+        if(data[i+3]<255){
+            data[i]=data2[i];
+            data[i+1]=data2[i+1];
+            data[i+2]=data2[i+2];
+            data[i+3]=data2[i+3];
+        }
+    }
+    context.putImageData(imageData, 0, 0);
     
 }
 
