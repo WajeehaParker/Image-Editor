@@ -17,8 +17,8 @@
             <div id="left" style="float: left">
                 <input type="file" multiple="false" accept="image/*" id="finput" onchange="upload()" style="display: none" >
                 <label for="finput"><img src="images/select.png" alt="select" id="selectImage"></label>
-                <button onclick="crop(event)"><img src="images/crop.png" alt="crop"></button>
-                <img src="images/border.jpg" alt="border">
+                <button onclick="crop()"><img src="images/crop.png" alt="crop"></button>
+                <button onclick="showBorders()"><img src="images/border.jpg" alt="border"></button>
             </div>
             <div id="right" style="float: right">
                 <button onclick="iundo()"><img src="images/undo.jpg" alt="undo"></button>
@@ -42,7 +42,7 @@
         </div>
 -->
         
-        <div class="filter">
+        <div class="filter" id="filters">
             <div class="row">
                 <div class="col-sm-3">
                     <button class="btn btn-light" onclick="black_white()">Black N White</button>
@@ -69,6 +69,39 @@
                 </div>
                 <div class="col-sm-3">
                     <button class="btn btn-light">filter 8</button>
+                </div>
+            </div>
+        </div>
+        
+        <input type="file" multiple="false" accept="image/*" id="finput" onchange="upload()" style="display: none" >
+        
+        <div class="borders" id="border">
+            <div class="row">
+                <div class="col-sm-3">
+                    <button class="btn btn-light" onclick="applyFrame('brd1')"><img src="images/border1-1.png" alt="border1" id="brd1"></button>
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-light" onclick=""></button>
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-light" onclick=""></button>
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-light" onclick=""></button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <button class="btn btn-light" onclick=""></button>
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-light" onclick=""></button>
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-light" onclick=""></button>
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-light" onclick=""></button>
                 </div>
             </div>
         </div>

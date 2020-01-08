@@ -225,6 +225,38 @@ function duoTone(){
 
 
 //-----------borders----------------
+function showBorders(){
+    var f=document.getElementById("filters");
+    var b=document.getElementById("border");
+    if(f.style.display==='none'){
+        f.style.display='block';
+        b.style.display='none';
+    } else{
+        b.style.display='block';
+        f.style.display='none';        
+    } 
+}
+
+function applyFrame(e){
+//    fetchData();
+//    undo.push(imageData);
+//    var data1=data;
+//    var fileinput = document.getElementById(e);
+//    image = new SimpleImage(fileinput);
+//    image.drawTo(canvas);
+//    fetchData();
+//    for (var i = 0; i < data.length; i+= 4) {
+//        if(data[i]=1){
+//            data[i+1]=data1[i+1];
+//            data[i+2]=data1[i+2];
+//            data[i+3]=data1[i+3];
+//        }
+//    }
+//    context.putImageData(imageData, 0, 0);
+    
+    
+    
+}
 
 
 
