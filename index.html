@@ -1,31 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+   
+    <script src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js" >
+</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous"> 
+
+    <script src="script.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
+    
+    
 </head>
-<body style="background-color: #434343">
+<!--<body style="background-color: #434343">-->
+<body style="background-color: #000">
 
     <div id="container">
-        <div class="main-header">
-            <h1>Image Editor</h1>
-        </div>
-        
-        <div class="header">
-            <div id="left" style="float: left">
-                <input type="file" multiple="false" accept="image/*" id="finput" onchange="upload()" style="display: none" >
-                <label for="finput"><img src="images/select.png" alt="select" id="selectImage"></label>
-                <button onclick="crop()"><img src="images/crop.png" alt="crop"></button>
-                <button onclick="showBorders()"><img src="images/border.jpg" alt="border"></button>
-            </div>
-            <div id="right" style="float: right">
-                <button onclick="iundo()"><img src="images/undo.jpg" alt="undo"></button>
-                <button onclick="iredo()"><img src="images/redo.jpg" alt="redo"></button>
-                <a id="download" download="image.png"><button onclick="saveImg()"><img src="images/save.png" alt="save"></button></a>
-                <button onclick="delImage()"><img src="images/cancel.jpg" alt="cancel" onclick="close()"></button>
-            </div>
+      
+       <div class="nav" id="header">
+        <ul class="nav nav-pills">
+   <li class="nav-item"><button type="button" class="btn btn-light" style="padding: 0 5px;"> <a class="nav-link" href="frontend.html">HOME</a></button></li>
+   
+            <li class="nav-item">
+      <label for="finput" class="btn btn-light">UPLOAD
+    <input type="file" size="60" id="finput" onchange="upload()"  class="nav-link" >
+    </label> </li>
+             
+        <li class="nav-item"><button type="button" onclick="showBorders()" class="btn btn-light">BORDERS</button></li>
+        <li class="nav-item"><button type="button" onclick="saveImg()" class="btn btn-light">SAVE</button></li>
+           <li class="nav-item"><button type="button" class="btn btn-light" style="padding: 0 5px;"> <a class="nav-link" href="index.html">X</a></button></li>
+
+<!--        <li class="nav-item"><button type="button" onclick="reset()" class="btn btn-light">X</button></li>-->
+
+<!--        <li class="nav-item"><button onclick="showBorders()"><img src="images/border.jpg" alt="border"></button></li>-->
+            
+<!--
+             <li class="nav-item">
+      <label for="finput" class="btn btn-light">BORDER
+    <input type="button" size="60" id="finput" onclick="showBorders()" class="nav-link" >
+    </label> 
+    </li>
+-->
+  
+   
+  </ul>
         </div>
         
         <div class="main">
@@ -36,23 +59,23 @@
         
         
         <div id="colorBox">
-            <input type="color" class="colors" id="color1" value="#e66465" onchange="duoTone()">
+            <input type="color" class="colors" id="color1" value="#e66465">
             <input type="color" class="colors" id="color2" value="#f6b73c" onchange="duoTone()">
         </div>
         
         <div class="filter" id="filters">
             <div class="row">
                 <div class="col-sm-3">
-                    <button class="btn btn-light" onclick="black_white()">Black N White</button>
+                    <button class="btn btn-light" onclick="Dark()">Dark</button>
                 </div>
                 <div class="col-sm-3">
-                    <button class="btn btn-light">filter 2</button>
+                    <button class="btn btn-light" onclick="sepia()" >Sepia</button>
                 </div>
                 <div class="col-sm-3">
                     <button class="btn btn-light" onclick="invert()">Invert</button>
                 </div>
                 <div class="col-sm-3">
-                    <button class="btn btn-light">filter 4</button>
+                    <button class="btn btn-light"  onclick="pixelate()">Pixelate</button>
                 </div>
             </div>
             <div class="row">
@@ -63,10 +86,10 @@
                     <button class="btn btn-light" onclick="showColorBox()">Duo Tone</button>
                 </div>
                 <div class="col-sm-3">
-                    <button class="btn btn-light">filter 7</button>
+                    <button class="btn btn-light" onclick="Noise()">Noise</button>
                 </div>
                 <div class="col-sm-3">
-                    <button class="btn btn-light">filter 8</button>
+                    <button class="btn btn-light"  onclick="Red()">Red</button>
                 </div>
             </div>
         </div>
@@ -76,13 +99,13 @@
         <div class="borders" id="border">
             <div class="row">
                 <div class="col-sm-3">
-                    <button class="btn btn-light" onclick="applyFrame('brd1')"><img src="images/border1-1.png" alt="border1" id="brd1"></button>
+                    <button class="btn btn-light" onclick="applyFrame('brd1')"><img src="border1.png" alt="border1" id="brd1"></button>
                 </div>
                 <div class="col-sm-3">
-                    <button class="btn btn-light" onclick=""></button>
+                    <button class="btn btn-light" onclick="applyFrame('brd2')"><img src="border2-1.jpeg.png" alt="border2" id="brd2"></button>
                 </div>
                 <div class="col-sm-3">
-                    <button class="btn btn-light" onclick=""></button>
+                    <button class="btn btn-light" onclick="applyFrame('brd3')"><img src="border3-1.jpeg.png" alt="border3" id="brd3"></button>
                 </div>
                 <div class="col-sm-3">
                     <button class="btn btn-light" onclick=""></button>
@@ -103,13 +126,61 @@
                 </div>
             </div>
         </div>
-        
-        <div class="footer"></div>
-    </div>
+       
+        <!-- Footer -->
+<div class="footer">
+
+  <!-- Footer Elements -->
+  <div class="container">
+
+    <!-- Social buttons -->
+    <ul class="list-unstyled list-inline text-center"  style=" position: absolute; margin: -35px 0 0 140px;">
+      <li class="list-inline-item" style="margin-top: 30px;">
+        <a class="btn-floating btn-fb mx-1">
+          <i class="fab fa-facebook-f"> </i>
+        </a>
+      </li>
+      <li class="list-inline-item" style="margin-top: 30px;">
+        <a class="btn-floating btn-tw mx-1">
+          <i class="fab fa-twitter"> </i>
+        </a>
+      </li>
+      <li class="list-inline-item" style="margin-top: 30px;">
+        <a class="btn-floating btn-gplus mx-1">
+          <i class="fab fa-google-plus-g"> </i>
+        </a>
+      </li>
+      <li class="list-inline-item" style="margin-top: 30px;">
+        <a class="btn-floating btn-li mx-1">
+          <i class="fab fa-linkedin-in"> </i>
+        </a>
+      </li>
+      <li class="list-inline-item" style="margin-top: 30px;">
+        <a class="btn-floating btn-dribbble mx-1">
+          <i class="fab fa-dribbble"> </i>
+        </a>
+      </li>
+    </ul>
+    <!-- Social buttons -->
+
+  </div>
+  <!-- Footer Elements -->
+
+  <!-- Copyright -->
+  <div style="margin-top: 20px;" class="footer-copyright text-center py-3">© 2020 Copyright: MDBootstrap.com
+  </div>
+  <!-- Copyright -->
+
+</div>
+<!-- Footer -->
+<!--
+   <input type="button" value="Reset Image" onclick="reset()" >
+    </div>  
+-->
+       
     
-<script src="script.js"></script>
-<script src="bootstrap/bootstrap.min.js"></script>
-<script src="bootstrap/jquery.js"></script>
-<script src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js" ></script>
+    </div>
+
+
 </body>
 </html>

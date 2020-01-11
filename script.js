@@ -4,6 +4,7 @@ var imageData;
 var data;
 var undo=[];
 var redo=[];
+var originalImage = null;
 
 //image input
 function upload() {
@@ -11,11 +12,25 @@ function upload() {
   var fileinput = document.getElementById("finput");
   //Make new SimpleImage from file input
   image = new SimpleImage(fileinput);
+  originalImage = new SimpleImage(fileinput);
   //Get canvas
   var canvas = document.getElementById("can");
   //Draw image on canvas
   image.drawTo(canvas);
+
+//   var imgcanvas = document.getElementById("can");
+// var fileinput = document.getElementById("finput");
+// image = new SimpleImage(fileinput);
+// image.drawTo(imgcanvas);
 }
+
+function reset() {
+//  if (imageIsLoaded(image)) {
+//    var canvas = document.getElementById("can");
+//    originalImage.drawTo(canvas);
+//  }
+}
+
 
 function fetchData(){
     canvas = document.getElementById('can');
@@ -30,19 +45,6 @@ function delImage(){
         data[i] = 0;
     context.putImageData(imageData, 0, 0);
     undo.push(imageData);
-}
-
-function crop(){
-//    fetchData();
-//    context.strokeStyle="blue";
-//    context.beginPath();
-//    context.moveTo(0,0);
-//    context.lineTo(canvas.width, 0);
-//    context.lineTo(canvas.width, canvas.height);
-//    context.lineTo(0, canvas.height);
-//    context.lineTo(0, 0);
-//    context.stroke();
-    
 }
 
 function iundo(){
@@ -69,16 +71,56 @@ function saveImg(){
 }
 
 //-----------filters----------------
+function Dark() {
+  //change all pixels of image to gray
+  for (var pixel of image.values()) {
+    var avg = (pixel.getRed()+pixel.getGreen()+pixel.getBlue())/3;
+    pixel.setRed(avg);
+    pixel.setGreen(avg);
+    pixel.setBlue(avg);
+  }
+  //display new image
+  var canvas = document.getElementById("can");
+  image.drawTo(canvas);
+}
+
+function Red() {
+  for (var pixel of image.values()) {
+    var avg = (pixel.getRed() + pixel.getGreen() + pixel.getBlue()) / 3;
+    if (avg < 128) {
+      pixel.setRed(2 * avg);
+      pixel.setGreen(0);
+      pixel.setBlue(0);
+    } else {
+      pixel.setRed(255);
+      pixel.setGreen(2 * avg - 255);
+      pixel.setBlue(2 * avg - 255);
+    }
+  }
+    
+    //display new image
+  var canvas = document.getElementById("can");
+  image.drawTo(canvas);
+}
 
 function invert() {
-    fetchData();
-    undo.push(imageData);
-    for (var i = 0; i < data.length; i+= 4) {
-        data[i] = data[i] ^ 255;
-        data[i+1] = data[i+1] ^ 255;
-        data[i+2] = data[i+2] ^ 255;
+//    fetchData();
+//    undo.push(imageData);
+//    for (var i = 0; i < data.length; i+= 4) {
+//        data[i] = data[i] ^ 255;
+//        data[i+1] = data[i+1] ^ 255;
+//        data[i+2] = data[i+2] ^ 255;
+//    }
+//    context.putImageData(imageData, 0, 0);
+    for (var pixel of image.values()) {
+          pixel.setRed(pixel.getRed()^255);
+          pixel.setGreen(pixel.getGreen()^255);
+          pixel.setBlue(pixel.getBlue()^255);
     }
-    context.putImageData(imageData, 0, 0);
+    
+    //display new image
+  var canvas = document.getElementById("can");
+  image.drawTo(canvas);
 }
 
 function blurfunc() {
@@ -112,76 +154,34 @@ function blurfunc() {
 }
 
 function grayScale(){
-    var max = 0;
-    var min = 255;
-    for (var i=0; i < data.length; i+=4) {
-        // Fetch maximum and minimum pixel values
-        if (data[i] > max) { max = data[i]; }
-        if (data[i] < min) { min = data[i]; }
-        // Grayscale by averaging RGB values
-        var r = data[i];
-        var g = data[i+1];
-        var b = data[i+2];
-        var v = 0.3333*r + 0.3333*g + 0.3333*b;
-        data[i] = data[i+1] = data[i+2] = v;
-    }
-    for (var i=0; i < data.length; i+=4) {
-        // Normalize each pixel to scale 0-255
-        var v = (data[i] - min) * 255/(max-min);
-        data[i] = data[i+1] = data[i+2] = v;
-    }
-    return data;
+//    var max = 0;
+//    var min = 255;
+//    for (var i=0; i < data.length; i+=4) {
+//        // Fetch maximum and minimum pixel values
+//        if (data[i] > max) { max = data[i]; }
+//        if (data[i] < min) { min = data[i]; }
+//        // Grayscale by averaging RGB values
+//        var r = data[i];
+//        var g = data[i+1];
+//        var b = data[i+2];
+//        var v = 0.3333*r + 0.3333*g + 0.3333*b;
+//        data[i] = data[i+1] = data[i+2] = v;
+//    }
+//    for (var i=0; i < data.length; i+=4) {
+//        // Normalize each pixel to scale 0-255
+//        var v = (data[i] - min) * 255/(max-min);
+//        data[i] = data[i+1] = data[i+2] = v;
+//    }
+//    return data;
+    for (var pixel of image.values()) {
+        var avg = (pixel.getRed()+pixel.getGreen()+pixel.getBlue())/3;
+        pixel.setRed(avg);
+        pixel.setGreen(avg);
+        pixel.setBlue(avg);
+      }
+    return image;
 }
 
-//function showColorBox(){
-//     document.getElementById('colorBox').style.display='block'; 
-//    document.getElementById('colorBox').style.marginTop="-30px";
-//    
-//    fetchData();
-//    temp=data;
-//}
-
-//function duoTone(){
-//    var rgb1=document.getElementById("color1").value;
-//    var rgb2=document.getElementById("color2").value;
-//    
-//    var bigint = parseInt(rgb1, 16);
-//    var r1 = (bigint >> 16) & 255;
-//    var g1 = (bigint >> 8) & 255;
-//    var b1 = bigint & 255;
-//    
-//    bigint = parseInt(rgb2, 16);
-//    var r2 = (bigint >> 16) & 255;
-//    var g2 = (bigint >> 8) & 255;
-//    var b2 = bigint & 255;
-//    
-//    data=temp;
-//    fetchData();
-//    data=grayScale(data);
-//    var rgb1 = hexToRgb("#55a9e2");
-//    var rgb2 = hexToRgb("#de2d2b");
-//    var gradient = [];
-//    for (var i = 0; i < (256*4); i += 4) {
-//        gradient[i] = ((256-(i/4))*rgb1.r + (i/4)*rgb2.r)/256;
-//        gradient[i+1] = ((256-(i/4))*rgb1.g + (i/4)*rgb2.g)/256;
-//        gradient[i+2] = ((256-(i/4))*rgb1.b + (i/4)*rgb2.b)/256;
-//        gradient[i+3] = 255;
-//    }
-    
-//    var gradient = [];
-//    for (var i = 0; i < (256*4); i += 4) {
-//        gradient[i] = ((256-(i/4))*85 + (i/4)*254)/256;
-//        gradient[i+1] = ((256-(i/4))*169 + (i/4)*254)/256;
-//        gradient[i+2] = ((256-(i/4))*226 + (i/4)*254)/256;
-//        gradient[i+3] = 255;
-//    }
-//    for (var i = 0; i < data.length; i += 4) {
-//        data[i] = gradient[data[i]*4];
-//        data[i+1] = gradient[data[i+1]*4 + 1];
-//        data[i+2] = gradient[data[i+2]*4 + 2];
-//    }
-//    context.putImageData(imageData, 0, 0);
-//}
 
 function showColorBox(){
     var colorBox=document.getElementById('colorBox');
@@ -198,7 +198,7 @@ function duoTone(){
     imageData = undo.pop();
     undo.push(imageData);
     data=imageData.data;
-    data=grayScale(data);
+    image=grayScale();
     var color=document.getElementById('color1');
     var r1=parseInt("0x"+color.value.slice(1,3));
     var g1=parseInt("0x"+color.value.slice(3,5));
@@ -215,35 +215,102 @@ function duoTone(){
         gradient[i+2] = ((256-(i/4))*b1 + (i/4)*b2)/256;
         gradient[i+3] = 255;
     }
-    for (var i = 0; i < data.length; i += 4) {
-        data[i] = gradient[data[i]*4];
-        data[i+1] = gradient[data[i+1]*4 + 1];
-        data[i+2] = gradient[data[i+2]*4 + 2];
-    }
-    context.putImageData(imageData, 0, 0);
-}
-
-//function black_white() {
-//    var image=document.getElementById('image');
-//  //change all pixels of image to gray
-// for (var pixel of image.values()) {
-//    var avg = (pixel.getRed()+pixel.getGreen()+pixel.getBlue())/3;
-//    pixel.setRed(avg);
-//    pixel.setGreen(avg);
-//    pixel.setBlue(avg);
-//  }
-//  //display new image
-//  var canvas = document.getElementById("can");
-//  image.drawTo(canvas);
-//        
+//    for (var i = 0; i < data.length; i += 4) {
+//        data[i] = gradient[data[i]*4];
+//        data[i+1] = gradient[data[i+1]*4 + 1];
+//        data[i+2] = gradient[data[i+2]*4 + 2];
 //    }
-
+    var i=0;
+    for (var pixel of image.values()) {
+        pixel.setRed(gradient[pixel.getRed()*4]);
+        pixel.setGreen(gradient[pixel.getGreen()*4 + 1]);
+        pixel.setBlue(gradient[pixel.getBlue*4 + 2]);
+        i++;
+      }
+//    context.putImageData(imageData, 0, 0);
+    var canvas = document.getElementById("can");
+  image.drawTo(canvas);
+}
 
 //undo
 //ctx.globalCompositeOperation ="xor"
 //ctx.drawImage(img2, 100, 100);
 
+ function sepia() { 
+    //get image data 
+    //var imgData = context.getImageData(0, 0, editor.width, editor.height), 
+    fetchData();
+    undo.push(imageData);
+        // pxData = imgData.data, 
+        // length = pxData.length; 
+        for(var i = 0; i< data.length; i+=4) { 
+            //convert to grayscale 
+            var r = data[i], 
+                g = data[i + 1], 
+                b = data[i + 2], 
+            sepiaR = r * .393 + g * .769 + b * .189, 
+            sepiaG = r * .349 + g * .686 + b * .168, 
+            sepiaB = r * .272 + g * .534 + b * .131; 
+            data[i] = sepiaR; 
+            data[i + 1] = sepiaG; 
+            data[i + 2] = sepiaB;                              
+        } 
+                      
+        //paint sepia image back 
+        context.putImageData(imageData, 0, 0);  
+}
 
+function pixelate(){
+    fetchData();
+    undo.push(imageData);
+    var sample_size = 10;
+   var w = canvas.width;
+    var h = canvas.height;
+    for (var y = 0; y < h; y += sample_size) {
+        for (var x = 0; x < w; x += sample_size) {
+          var p = (x + (y*w)) * 4;
+          context.fillStyle = "rgba(" + data[p] + "," + data[p + 1] + "," + data[p + 2] + "," + data[p + 3] + ")";
+          context.fillRect(x, y, sample_size, sample_size);
+        }
+      }
+
+      // context.putImageData(imageData, 0, 0);
+    }
+function Noise(){
+    fetchData();
+    undo.push(imageData);
+    var p1 = 0.99;
+var p2 = 0.99;
+var p3 = 0.99;
+var er = 0; // extra red
+var eg = 0; // extra green
+var eb = 0; // extra blue
+    // var data = imgd.data;
+  for (var i = 0, n = data.length; i < n; i += 4) {
+
+       // generating random color coefficients
+
+       var randColor1 = 0.6 + Math.random() * 0.4;
+
+       var randColor2 = 0.6 + Math.random() * 0.4;
+
+       var randColor3 = 0.6 + Math.random() * 0.4;
+
+        // assigning random colors to our data
+
+        data[i] = data[i]*p2*randColor1+er; // green
+
+        data[i+1] = data[i+1]*p2*randColor2+eg; // green
+
+        data[i+2] = data[i+2]*p3*randColor3+eb; // blue
+
+    }
+
+    // put image date back to context
+
+   context.putImageData(imageData, 0, 0);
+    
+    }
 
 //-----------borders----------------
 function showBorders(){
@@ -258,23 +325,7 @@ function showBorders(){
     } 
 }
 
-function applyFrame(e){
-//    fetchData();
-//    undo.push(imageData);
-//    var data1=data;
-//    var fileinput = document.getElementById(e);
-//    image = new SimpleImage(fileinput);
-//    image.drawTo(canvas);
-//    fetchData();
-//    for (var i = 0; i < data.length; i+= 4) {
-//        if(data[i]=1){
-//            data[i+1]=data1[i+1];
-//            data[i+2]=data1[i+2];
-//            data[i+3]=data1[i+3];
-//        }
-//    }
-//    context.putImageData(imageData, 0, 0);
-    
+function applyFrame(e){    
     fetchData();
     data2=data;
     undo.push(imageData);
@@ -282,12 +333,8 @@ function applyFrame(e){
     image = new SimpleImage(fileinput);
     image.width=canvas.width;
     image.height=canvas.height;
-//    var can = document.getElementById("can2");
     image.drawTo(canvas);
-//    var ctx = can.getContext('2d');
-//    var imageData2 = ctx.getImageData(0, 0, can.width, can.height);
     fetchData();
-//    var data2=imageData2.data;
     for (var i = 0; i < data.length; i+= 4) {
         if(data[i+3]<255){
             data[i]=data2[i];
@@ -297,7 +344,6 @@ function applyFrame(e){
         }
     }
     context.putImageData(imageData, 0, 0);
-    
 }
 
 

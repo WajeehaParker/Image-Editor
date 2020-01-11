@@ -1,3 +1,8 @@
+body
+        {
+            
+            background-image: url(e.jpg);
+        }
 *{
     margin: 0;
     padding: 0;
@@ -6,16 +11,19 @@
 #container{
     margin: auto;
     width: 450px;
-    height: 800px;
+    height: auto;
     background-color: gainsboro;
 }
 
+/*
 .main-header{
     height: 60px;
     background-color: darkturquoise;
     text-align: center;
 }
+*/
 
+/*
 .header{
     height: 40px;
     background-color: white;
@@ -32,6 +40,7 @@
     border: none;
     background-color: white;
 }
+*/
 
 .main{
     padding: 40px 0;
@@ -42,10 +51,6 @@
     border: 1px solid dimgrey;
     height: 350px;
     width: 350px;
-}
-
-#can2{
-    display: none;
 }
 
 #colorBox{
@@ -61,7 +66,8 @@
 }
 
 .filter, .borders{
-    background-color: cadetblue;
+/*    background-color: cadetblue;*/
+    background-color: palevioletred;
     padding: 30px;
 }
 
@@ -90,8 +96,46 @@
     height: 65px;
 }
 
-.footer{
-    height: 20px;
-    background-color: darkturquoise;
+
+ .nav{
+    margin: 20px 0;
 }
 
+.nav-pills{
+    margin-left: 15px;
+}
+
+.btn{
+    margin-right: 5px;
+    padding: 8px 15px;
+}
+
+/*
+a{
+    padding: 10px;
+}
+*/
+
+a{
+    color: black;
+}
+
+label{
+    background: red; 
+    display: table;
+    color: #fff;
+/*
+    height: 54px;
+    width: 110px;
+*/
+}
+
+.footer, #header{
+    background-color: bisque;
+    border-bottom: 5px solid palevioletred;
+}
+
+
+input[type="file"] {
+    display: none;
+}
